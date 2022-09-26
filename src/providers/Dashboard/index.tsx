@@ -43,25 +43,26 @@ export const DashboardProvider = ({ children }: IChildrenReact) => {
     return responseContact;
   };
 
+  const ListContacts = async () => {
+    const responseListContacts = await api
+      .get(`/users/me`, {
+        headers: {
+          Authorization: `Baerer ${validationToken()}`,
+        },
+      })
+      .then((res) => {
+        setContacts(res.data.contacts);
+
+        return res.data;
+      })
+      .catch((err) => {
+        return err;
+      });
+
+    return responseListContacts;
+  };
+
   useEffect(() => {
-    const ListContacts = async () => {
-      const responseListContacts = await api
-        .get("/users/contacts", {
-          headers: {
-            Authorization: `Baerer ${validationToken()}`,
-          },
-        })
-        .then((res) => {
-          setContacts(res.data);
-
-          return res.data;
-        })
-        .catch((err) => {
-          return err;
-        });
-
-      return responseListContacts;
-    };
     ListContacts();
   }, [setContacts]);
 
