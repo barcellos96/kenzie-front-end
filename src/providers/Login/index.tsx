@@ -28,7 +28,7 @@ export const LoginProvider = ({ children }: IChildrenReact) => {
       .post("/users/login", data)
       .then((res) => {
         console.log("res", res.data.token.token);
-        window.location.reload();
+        window.location.href = "/dashboard";
         setUserLogin(data);
         setToken(res.data.token.id, res.data.token.token);
         navigate("/dashboard");

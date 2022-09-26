@@ -1,13 +1,13 @@
 import ModalNewContact from "../../components/modalNewContact";
 import { useNavigate } from "react-router-dom";
 import Login from "../Login";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import TableContacts from "../../components/cardContacts";
+import { DashboardContext } from "../../providers/Dashboard";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-
-  const [modal, setModal] = useState(false);
+  const { modalNewContact, setModalNewContact } = useContext(DashboardContext);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -22,11 +22,13 @@ const Dashboard = () => {
     <>
       <header>
         <span>DASHBOARD</span>
-        <button onClick={() => setModal(true)}>adicionar contato</button>
-        <button>perfil</button>
+        <button onClick={() => setModalNewContact(true)}>
+          adicionar contato
+        </button>
+        <button>deletar conta</button>
         <button onClick={handleLogout}>sair</button>
 
-        {modal && <ModalNewContact />}
+        {modalNewContact && <ModalNewContact />}
       </header>
 
       <TableContacts />
