@@ -1,17 +1,11 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-
-interface FormValues {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-}
+import { useContext } from "react";
+import { RegisterContext, TCreateUser } from "../../providers/Register";
 
 const Register = () => {
-  const navigate = useNavigate();
+  const { Register } = useContext(RegisterContext);
 
   const schema = yup.object().shape({
     name: yup.string().required("Nome obrigatório!"),
@@ -24,11 +18,10 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: yupResolver(schema) });
+  } = useForm<TCreateUser>({ resolver: yupResolver(schema) });
 
-  const onSubmitFunction = (data: FormValues) => {
-    console.log(data);
-    navigate("/");
+  const onSubmitFunction = (data: TCreateUser) => {
+    Register(data);
   };
 
   //   if (localStorage.getItem("token")) {
@@ -39,19 +32,19 @@ const Register = () => {
     <>
       <h1>REGISTER</h1>
       <form onSubmit={handleSubmit(onSubmitFunction)}>
-        <input placeholder="Nome" {...register("name")} />
+        <input {...register("name")} placeholder="Nome" />
         {errors.name && errors.name.type === "required" && (
           <span>campo obrigatório</span>
         )}
-        <input type="email" placeholder="E-mail" {...register("email")} />
+        <input {...register("email")} type="email" placeholder="E-mail" />
         {errors.email && errors.email.type === "required" && (
           <span>campo obrigatório</span>
         )}
-        <input placeholder="Celular" {...register("phone")} />
+        <input {...register("phone")} placeholder="Celular" />
         {errors.phone && errors.phone.type === "required" && (
           <span>campo obrigatório</span>
         )}
-        <input type="password" placeholder="Senha" {...register("password")} />
+        <input {...register("password")} type="password" placeholder="Senha" />
         {errors.password && errors.password.type === "required" && (
           <span>campo obrigatório</span>
         )}

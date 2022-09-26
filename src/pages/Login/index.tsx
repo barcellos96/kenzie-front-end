@@ -1,7 +1,9 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { LoginContext } from "../../providers/Login";
+import Dashboard from "../Dashboard";
 
 interface FormValuesLogin {
   email: string;
@@ -9,7 +11,7 @@ interface FormValuesLogin {
 }
 
 const Login = () => {
-  const navigate = useNavigate();
+  const { Login } = useContext(LoginContext);
 
   const schema = yup.object().shape({
     email: yup.string().required("Email obrigatório!"),
@@ -23,13 +25,12 @@ const Login = () => {
   } = useForm<FormValuesLogin>({ resolver: yupResolver(schema) });
 
   const onSubmitFunction = (data: FormValuesLogin) => {
-    console.log(data);
-    navigate("/dashboard");
+    Login(data);
   };
 
-  // if (localStorage.getItem("token")) {
-  //   return <DashboardPage />;
-  // }
+  if (localStorage.getItem("token")) {
+    return <Dashboard />;
+  }
 
   return (
     <>
