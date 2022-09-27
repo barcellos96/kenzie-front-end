@@ -9,9 +9,19 @@ export type TCreateUser = {
   password: string;
 };
 
+export type TCreateUserUpdate = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+};
+
 interface IRegisterData {
   user: TCreateUser | null;
   Register(data: TCreateUser): Promise<object>;
+  UpdateUser(data: TCreateUserUpdate): Promise<object>;
+  modalUpdateUser: boolean;
+  setModalUpdateUser: Function;
 }
 
 interface IChildrenReact {
@@ -24,6 +34,8 @@ export const RegisterContext = createContext<IRegisterData>(
 
 export const RegisterProvider = ({ children }: IChildrenReact) => {
   const [user, setUser] = useState<TCreateUser | null>(null);
+
+  const [modalUpdateUser, setModalUpdateUser] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -42,8 +54,41 @@ export const RegisterProvider = ({ children }: IChildrenReact) => {
     return responseUser;
   };
 
+  const UpdateUser = async (data: TCreateUserUpdate) => {
+    const idUser = localStorage.getItem("uid");
+    const responseUpdateUser = await api
+      .patch(`/users/me/${idUser}`, data, {
+        headers: {
+          Authorization: `Baerer ${validationToken()}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        console.log(data);
+        setModalUpdateUser(false);
+        return res;
+      })
+      .catch((err) => {
+        return err;
+      });
+
+    return responseUpdateUser;
+  };
+
+  const validationToken = () => {
+    return localStorage.getItem("token");
+  };
+
   return (
-    <RegisterContext.Provider value={{ user, Register }}>
+    <RegisterContext.Provider
+      value={{
+        user,
+        Register,
+        UpdateUser,
+        modalUpdateUser,
+        setModalUpdateUser,
+      }}
+    >
       {children}
     </RegisterContext.Provider>
   );

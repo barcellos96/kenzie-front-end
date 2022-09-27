@@ -42,7 +42,6 @@ export const LoginProvider = ({ children }: IChildrenReact) => {
 
   const setToken = (id: string, token: string) => {
     localStorage.setItem("uid", id);
-
     localStorage.setItem("token", token);
   };
 

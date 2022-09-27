@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { api } from "../../service/api";
 
 export type TCreateContact = {
@@ -13,7 +13,7 @@ interface IRegisterContactData {
   DeleteContactSelf(idContact: string): Promise<any>;
   modalNewContact: boolean;
   setModalNewContact: Function;
-  DeleteUserSelf(idUser: string): Promise<any>;
+  DeleteUserSelf(idUser: string | null): Promise<any>;
 }
 
 interface IChildrenReact {
@@ -67,6 +67,10 @@ export const DashboardProvider = ({ children }: IChildrenReact) => {
     return responseListContacts;
   };
 
+  useEffect(() => {
+    ListContacts();
+  }, []);
+
   const DeleteContactSelf = async (idContact: string) => {
     const responseDeleteContactSelf = await api
       .delete(`/users/contacts/${uid}/${idContact}`, {
@@ -100,7 +104,6 @@ export const DashboardProvider = ({ children }: IChildrenReact) => {
       .catch((err) => {
         return err;
       });
-    console.log(responseDeleteUserSelf);
 
     return responseDeleteUserSelf;
   };
