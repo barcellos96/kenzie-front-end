@@ -17,7 +17,6 @@ export type TCreateUserUpdate = {
 };
 
 interface IRegisterData {
-  user: TCreateUser | null;
   Register(data: TCreateUser): Promise<object>;
   UpdateUser(data: TCreateUserUpdate): Promise<object>;
   modalUpdateUser: boolean;
@@ -33,8 +32,6 @@ export const RegisterContext = createContext<IRegisterData>(
 );
 
 export const RegisterProvider = ({ children }: IChildrenReact) => {
-  const [user, setUser] = useState<TCreateUser | null>(null);
-
   const [modalUpdateUser, setModalUpdateUser] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -43,7 +40,6 @@ export const RegisterProvider = ({ children }: IChildrenReact) => {
     const responseUser = await api
       .post("/users", data)
       .then((res) => {
-        setUser(data);
         navigate("/");
       })
       .catch((err) => {
@@ -63,12 +59,16 @@ export const RegisterProvider = ({ children }: IChildrenReact) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
-        console.log(data);
         setModalUpdateUser(false);
+        localStorage.clear();
+        setTimeout(() => {
+          navigate("/");
+          console.log("Faça login para validar seus dados");
+        }, 1000);
         return res;
       })
       .catch((err) => {
+        console.log(err);
         return err;
       });
 
@@ -82,7 +82,6 @@ export const RegisterProvider = ({ children }: IChildrenReact) => {
   return (
     <RegisterContext.Provider
       value={{
-        user,
         Register,
         UpdateUser,
         modalUpdateUser,

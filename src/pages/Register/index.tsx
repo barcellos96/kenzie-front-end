@@ -50,6 +50,7 @@ const Register = () => {
         )}
 
         <input type="submit" />
+        <a href="/">Faça Login! Clique aqui.</a>
       </form>
     </>
   );

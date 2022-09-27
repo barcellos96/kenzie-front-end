@@ -10,6 +10,7 @@ export type TCreateContact = {
 interface IRegisterContactData {
   RegisterContact(data: TCreateContact): Promise<object>;
   contacts: [];
+  user: [];
   DeleteContactSelf(idContact: string): Promise<any>;
   modalNewContact: boolean;
   setModalNewContact: Function;
@@ -26,6 +27,8 @@ export const DashboardContext = createContext<IRegisterContactData>(
 
 export const DashboardProvider = ({ children }: IChildrenReact) => {
   const [contacts, setContacts] = useState<[]>([]);
+  const [user, setUser] = useState<[]>([]);
+
   const [modalNewContact, setModalNewContact] = useState(false);
 
   const uid = localStorage.getItem("uid");
@@ -56,6 +59,8 @@ export const DashboardProvider = ({ children }: IChildrenReact) => {
         },
       })
       .then((res) => {
+        console.log(res.data);
+        setUser(res.data);
         setContacts(res.data.contacts);
 
         return res.data;
@@ -116,6 +121,7 @@ export const DashboardProvider = ({ children }: IChildrenReact) => {
     <DashboardContext.Provider
       value={{
         RegisterContact,
+        user,
         contacts,
         DeleteContactSelf,
         modalNewContact,

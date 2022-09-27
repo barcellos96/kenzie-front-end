@@ -1,6 +1,6 @@
 ### falta fazer
 
-- [] UPDATE USUÁRIO
+- [x] UPDATE USUÁRIO
 - [] UPDATE CONTATO DO USUÁRIO
 - [x] DELETE USUÁRIO
 - [x] LISTA DE USUÁRIO PARA CADA ID
