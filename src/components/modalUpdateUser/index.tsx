@@ -8,9 +8,7 @@ const ModalUpdateUser = () => {
   const { UpdateUser } = useContext(RegisterContext);
   const schema = yup.object().shape({
     name: yup.string(),
-    email: yup.string(),
     password: yup.string(),
-
     phone: yup.string(),
   });
 
@@ -28,7 +26,6 @@ const ModalUpdateUser = () => {
       <h1>MODAL UPDATE USER</h1>
       <form onSubmit={handleSubmit(onSubmitFunction)}>
         <input {...register("name")} placeholder="Nome" />
-        <input {...register("email")} type="email" placeholder="E-mail" />
         <input {...register("password")} placeholder="paswword" />
         <input {...register("phone")} placeholder="phone" />
 

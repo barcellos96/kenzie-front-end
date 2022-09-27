@@ -11,7 +11,6 @@ export type TCreateUser = {
 
 export type TCreateUserUpdate = {
   name?: string;
-  email?: string;
   phone?: string;
   password?: string;
 };
