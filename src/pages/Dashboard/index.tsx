@@ -24,6 +24,16 @@ const Dashboard = () => {
     DeleteUserSelf(idUser);
   };
 
+  const handleOpenUpdateUserModal = () => {
+    setModalNewContact(false);
+    setModalUpdateUser(true);
+  };
+
+  const handleOpenNewContact = () => {
+    setModalNewContact(true);
+    setModalUpdateUser(false);
+  };
+
   if (!localStorage.getItem("token")) {
     return <Login />;
   }
@@ -32,12 +42,8 @@ const Dashboard = () => {
     <>
       <header>
         <span>DASHBOARD</span>
-        <button onClick={() => setModalNewContact(true)}>
-          adicionar contato
-        </button>
-        <button onClick={() => setModalUpdateUser(true)}>
-          atualizar conta
-        </button>
+        <button onClick={handleOpenNewContact}>adicionar contato</button>
+        <button onClick={handleOpenUpdateUserModal}>atualizar conta</button>
         <button onClick={handleDeleteUser}>deletar conta</button>
         <button onClick={handleLogout}>sair</button>
 

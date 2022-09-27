@@ -25,7 +25,7 @@ const ModalUpdateUser = () => {
 
   return (
     <>
-      <h1>MODAL NEW CONTACT</h1>
+      <h1>MODAL UPDATE USER</h1>
       <form onSubmit={handleSubmit(onSubmitFunction)}>
         <input {...register("name")} placeholder="Nome" />
         <input {...register("email")} type="email" placeholder="E-mail" />
